@@ -1,0 +1,623 @@
+* Verify Version of Docker install on our machine 
+
+$ docker version
+$ docker --version
+
+* Verify Docker Engine SetUp & Details
+
+$ docker info
+
+* List all Docker commands
+
+$ docker
+
+* Docker Management commands format
+> docker <command> <sub-command>( Optional)
+
+* What is Image? 
+A. Image is the Application we want to run 
+
+* Why Containers required? 
+A. Containers is an running instance of an Image
+
+* we can have many containers running the same image.
+
+* Docker central Repository
+
+https://hub.docker.com
+
+
+* hello-world Example
+
+$ docker container run hello-world (new)
+
+or 
+
+$ docker run hello-world (old)
+
+
+* when we start any container first docker will search for that container image in our local machine. if it will not that image in our local will get the message like this:
+
+> Unable to find image 'hello-world:latest' (image name) locally
+
+* After that it will pull the image from the https://hub.docker.com (docker repository) 
+
+* we don't need to get or anything installed in our machine.
+
+
+Ex: 
+
+* Start Nginx web-server in Docker
+ ➤ docker container run --publish <host_port:container_port> <image_name>
+
+ $ docker container run --publish 8080:80 nginx
+
+ or 
+
+ $ docker run --name nginx-server -p 8080:80 nginx
+
+ ➤ Then we can hit http://localhost:8080 or http://host-ip:8080 in your browser.
+
+ ex: http://192.168.1.7:8080
+
+ * Stop Container fore-ground process
+
+ $ ctrl+c
+
+ * Start Container in Back-Ground or detach mode
+ ➤ docker container run --publish <host_port:container_port> --detach <image_name>
+
+ $ docker run -d -p 8080:80 nginx
+
+ * Docker container names
+
+ ➤ docker container run --publish 8080:80 --detach - -name <Name> <Image_Name>
+
+ ➤ docker run --name some-nginx -d -p 8080:80 some-content-nginx
+
+ $ docker run --name some-server -d -p 8080:80 nginx
+
+ 
+* Process Done:
+Dowloaded the Images form Docker Hub
+Started new Container
+Exposed port 8080 on Host Machine
+Routes traffic to the container port 80
+
+* List running Containers
+
+$ docker container ls (new)
+$ docker ps (old)
+
+* Stop Docker Containers
+
+➤ docker container stop <container_id>
+
+$ docker container stop 7dc6919618d0
+
+* List all running and stopped containers
+
+$ docker container ls -a
+
+* Run vs Start Container
+
+ run: start a new container always
+ start: start a existing containers
+    eg: docker start nginx-server or docker container start nginx-server ( name) or docker container start 88392af5d828 (CONTAINER ID)
+
+* See logs of a specific container
+
+ > docker container logs <container_name>/<container_id>
+
+$ docker container logs nginx-server or docker container logs 88392af5d828
+
+
+* See process running inside the containers
+
+ > docker container top <container_id>/<container_name>
+
+$ docker container top 88392af5d828 or  docker container top nginx-server
+
+* Remove all unused containers
+
+ > docker container rm <space separated container ids>
+
+$ docker container rm 7c3f7f40ce2f  7dc6919618d0  4b79f57118d0
+
+* You cannot remove a running container. Stop the container before attempting removal or force remove.
+
+* Remove container force fully
+
+$ docker container rm -f 80354a0e6059
+
+
+* Containers vs Virtual Machines:
+
+➤ Containers and virtual machines both have similar resource allocation and allocation benefits.
+➤ Containers and VMs are functionally different because containers virtualise the Operating System and VMs are
+virtualise the hardware.
+➤ Containers are more portable.
+➤ Containers are just processes.
+➤ Containers are limited what resources they can access.
+➤ Exit when process exits.
+
+
+* To see how many process running in machine
+
+$ ps aux or ps -ef
+
+$ ps aux | grep nginx
+
+
+* Process List in one  Container
+
+$ docker container top <container_id>/<name>
+
+* Details of one container config
+
+$ docker container inspect <container_id>/<name>
+
+* Performance stats on all cantainers
+
+$ docker container stats
+
+
+* Getting inside the containers and modify if required
+
+$ docker container run -it  # Run Container interactivity
+
+$ docker container run -it --name webproxy nginx bash
+
+* Exit Container Terminal
+
+$ exit
+
+* Getting Inside the running Containers and execute Commands. 
+
+$ docker container exec -it <running container_id>/<name>  # Open Running Container interactivity 
+
+$ docker container exec -it e12bd58eb896 touch /tmp/reco
+$ docker container exec -it e12bd58eb896 bash
+
+    > The docker exec command runs a new command in a running container
+
+* execute an Example Scenario.
+➤ Download new ubuntu Destro
+$ docker container run -it ubuntu bash
+➤ Use curl and view Facebook home page DOM in ubuntu.
+
+$ apt-get update
+$ apt-get install curl
+$ curl https://www.facebook.com
+
+
+* Networking in Docker:
+========================
+
+> Docker containers and services can be connected with each other.
+> Containers and Services don’t need to be aware, where they are deployed. 
+> Container and Services can communicate, Whether your Docker hosts run Linux, Windows, or a mix of the two.
+> This all possible because of default drivers in Docker.
+> Each Container connect to virtual private network called ‘bridge’. 
+> bridge : This is default Network driver of Docker.
+> All Containers on same bridge can communicate each other with-out -p (port) 
+
+* Best Practice to create Networks :
+
+    network “sql_php_nwt” for mySQL and PHP Containers
+
+    network “mongo_nwt” for mongo and PHP Containers
+
+* Docker Network is easy to Plugged-in in Containers.
+* User is allow to Create Multiple VPN.
+* Create Multiple Rules for Single Network.
+* Attach Multiple Containers to One Network, and Attach single container to more than One Network or no need to attach any network to container.
+
+
+* Start Container to allow traffic from Port on Host Machine
+
+ > docker container run -p <host_port>:<docker_port> -d image
+ $ docker container run -p 8080:80 -d nginx
+
+* Find the traffic and protocol on container
+
+ > docker port <container_id>
+ $ docker container port 3bed1527e95f
+
+* Find Docker Container IP
+
+ > docker inspect <container_id>
+
+ $ docker container inspect 3bed1527e95f
+
+ $ docker container inspect -f '{{.NetworkSettings.IPAddress}}' 3bed1527e95f
+
+
+* Docker Network Command Management:
+=====================================
+
+* Show All networks
+
+$ docker network ls
+    Lists all the networks the Engine daemon knows about. 
+
+* We can filter the Networks
+> To Filter all bridge network
+
+$ docker network ls -f driver=bridge
+
+* To find all Network IDs and Drivers
+
+$ docker network ls --format "{{.ID}}: {{.Driver}}"
+
+
+* Inspect any Network
+
+$ docker network inspect <NETWORK ID>
+  Returns information about one or more networks. By default, this command renders all results in a JSON object.
+
+$  docker network inspect 75ad559d3ae5
+
+
+* Create New Network on Host Machine
+
+$ docker network create
+$ docker network create mynetwork
+
+* Above command creates ‘bridge’ network by default. 
+
+* Create a bridge network
+
+$ docker network create -d bridge my-bridge-network
+
+* Connect Network with Container
+
+$ docker network connect network1 container1
+
+$ docker network connect mynetwork silly_turing
+    > Connects a container to a network. You can connect a container by name or by ID.
+    > After connection, the container can communicate with other containers in the same network.
+
+$ docker container inspect silly_turing
+
+* Disconnect Network with Container
+
+$ docker network disconnect network1 container1
+$ docker network disconnect bridge silly_turing
+$ docker container inspect silly_turing
+
+
+
+$ docker container run -d --name my_nginx --network mynetwork nginx
+$ docker network inspect mynetwork
+$ docker container inspect my_nginx
+$  docker container run -d --name my_nginx1 --network mynetwork nginx:alpine
+
+
+* Remove a network:
+====================
+
+$ docker network rm e7c1a3e8c94d
+
+$ docker network rm mynetwork
+
+
+* Docker Network DNS:
+=====================
+
+* DNS stands for Domain Name System.
+* DNS is how domain names are translated into IP addresses. 
+* DNS is what allows you to use your web browser to find web sites.
+* DNS makes it possible for us to use easy to remember domain names in place of complex IP addresses.
+* Containers uses DNS to communicate. 
+* Containers don’t use IP address to Communicate.
+
+
+* Docker Images:
+=================
+
+* In Docker, everything is based on Images. An image is a combination of a file system and parameters. Images contains the binaries and dependencies.
+* Images Contains the data require to run the Image. 
+
+* List Docker Images:
+
+$ docker images 
+
+* Images don’t contains the OS, and OS packages.
+
+
+* Docker Hub Repository:
+=========================
+
+* Docker Images can be Downloaded from Docker Hub. 
+
+* Images can be committed with changes and have multiple versions. If you don't provide a specific version number, the client defaults to latest.
+
+Docker Images Différenciation:
+==============================
+
+* Base Image : Images that have no parent image, usually images with an OS like ubuntu, busybox or debian. 
+
+* Child Images : Images that build on base images and add additional functionality.
+
+* Official images : Images that are officially maintained and supported by the folks at Docker. These are typically one word long.
+
+* User images : Images created and shared by users like you and me. They build on base images and add additional functionality. Typically, these are formatted as user/image-name.
+
+* Download Docker Image.
+
+$ docker pull <image_name>
+
+$ docker pull mysql
+
+* Pull Specific Version
+
+$ docker pull <Image_name>:<Image_version>
+
+$ docker pull mysql:5.7
+
+
+Docker Images & Layers:
+========================
+
+* Each image consists of a series of layers. Docker makes use of union file systems to combine these layers into a single image.
+
+* Union file systems allow files and directories of separate file systems, known as branches. 
+
+* Show Image Layers:
+
+$ docker history <image_name>
+
+$  docker history mysql
+
+* History command shows different layers, command used for veach layer, and the exact size of each image.
+
+* Docker Images Tagging:
+=========================
+
+* What exactly are Docker tags?
+ > Docker tags convey useful information about a specific image version/variant.
+
+* Docker Image don’t have clumn as name. 
+
+* Tags added to image during the Building of Image. 
+
+* Images can be tagged explicitly with the help of Tag Command.
+
+$ docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+
+$  docker tag ubuntu ubuntutest
+
+$ docker tag mysql:5.7 mysql_test:test
+
+$ docker images
+
+
+* When we don’t specify Docker Image tag? 
+
+* By default it takes ‘latest’ tag.
+
+* Docker Images Upload:
+========================
+
+* User must have the Account on hub.docker.com
+
+* Docker Cloud uses Docker Hub as its native registry for storing both public and private repositories. Once you push your images to Docker Hub, they are available in Docker Cloud. 
+
+* Command to login:
+
+$ docker login
+
+* Push Image on Docker Hub:
+
+$ docker image push USER/Image-name
+
+* Docker Hub: 
+
+$ docker pull ubuntu
+$ docker pull ubuntu:16.04
+$ docker images or docker image ls
+$ docker tag ubuntu:latest recorichardretardo/ubuntu_demo
+$ docker tag ubuntu:latest recorichardretardo/ubuntu_demo:test
+$ docker images
+$ docker login
+$ docker push recorichardretardo/ubuntu_demo
+$ docker push recorichardretardo/ubuntu_demo:test
+$ docker logout
+
+$ docker pull recorichardretardo/ubuntu_demo
+
+* Dockerfile:
+=============
+
+ > Docker can build images automatically by reading the instructions from a Dockerfile.
+ > A Dockerfile is a text file that defines a Docker image. we’ll use a Dockerfile to create our own custom Docker image, in other words to define our custom environment to be used in a Docker container.
+ > A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image.
+ > A Docker image consists of read-only layers each of which represents a Dockerfile instruction.
+ > Command to build image from Dockerfile:
+    > docker build -f <path_of_docker_file>
+    
+* Docker file instructions are used to create the Docker Images
+
+    > FROM: The FROM instruction inializes a new build stage and sets the Base Image for subsequent instructions.
+    * A valid Dockerfile must start with a FROM instruction.
+    * Base Image can be any valid image
+    * Format:
+      FROM <image>[:<tag>]
+    > LABEL: LABEL added to image to organize images by project, record licensing information.
+    * For each label, add a line beginning with LABEL and with one or more key-value pairs.
+    Ex:
+
+    LABEL com.example.version="0.0.1-beta"
+    LABEL vendor1="ACME Incorporated"
+
+    > RUN : RUN instruction will execute any commands in a new layer on top of the current image and commit the results.
+    * The resulting committed imae will be used for the next step in the Dockerfile.
+
+    Ex:
+
+    FROM ubuntu:14.04
+    RUN apt-get update
+    RUN apt-get install -y curl
+
+    > CMD: CMD instruction should be used to run the software contained by your image, along with any arguments.
+
+    * Format:
+      CMD ["executable","param1","param2"]
+    * There can only be one CMD instruction in a Dockerfile. If we list more than one CMD then only the last CMD will take effect.
+    * The main purpose of a CMD is to provide defaults for an executing container.
+
+    > EXPOSE: EXPOSE instruction indicates the ports on which a container listens for connections.
+
+    * Format:
+        EXPOSE <port>
+
+    > ENV: ENV instruction  sets the environment variable <key> to the value <value>.
+
+    * To make new software easier to run, we can use ENV to update the PATH environment variable for the software our container installs.
+
+    > ADD: ADD instruction copies new files, directories or remote file URLs from <src> and adds them to file system of the image at the path <dest>.
+
+    * Format:
+        ADD hom*/mydir/  # adds all files starting with "hom"
+
+    > VOLUME: VOLUME instruction should be used to expose any database storage area, configuration storage, or files/folders created by our docker container.
+
+    > WORKDIR: WORKDIR instruction sets the working directory for any RUN, CMD, ADD instructions that follow it in the Dockerfile.
+
+* Build Docker Image:
+=====================
+
+* Docker Image is Build from Docker File. 
+
+* Docker Build Syntax :
+$ docker build -t ImageName:TagName dir
+
+* "-t"  − is to mention a tag to the image. 
+
+* ImageName − This is the name you want to give to your image. 
+
+* TagName − This is the tag you want to give to your image. 
+
+* Dir − The directory where the Docker File is present.
+
+Ex:
+
+* Create Custom Nginx Image and Execute it. 
+
+Dockerfile:
+
+=====================================================================================================
+
+# Each instruction in this file generates a new layer that gets pushed to your local image cache
+# The line below states we will base our new image on the Latest Official Ubuntu 
+
+FROM ubuntu:latest
+
+# Identify the maintainer of an image
+
+LABEL version="0.0.1"
+LABEL maitainer="recorichardretardo"
+
+# Update the image to the latest packages
+
+RUN  apt-get update && apt-get upgrade -y
+
+# Install NGINX to test.
+
+RUN apt-get install nginx -y
+
+# Expose port 80
+
+EXPOSE 80
+
+# Last is the actual command to start up NGINX within our Container
+
+CMD [ "nginx", "-g", "daemon off;"]
+
+==========================================================================================================
+
+$ docker image build -t customnginx:0.0.1 /home/osboxes/Dockerfiles/
+
+$ docker run -d -p 8081:80 customnginx:0.0.1
+
+* Remove docker images:
+
+$ docker rmi recorichardretardo/ubuntu_demo
+
+$ docker rmi recorichardretardo/ubuntu_demo:test
+
+$ docker rmi ubuntutest ubuntu httpd mysql
+
+$ docker image rm  python  1d622ef86b13  602e111c06b6
+
+
+* Extend Docker Official Nginx Image :
+
+Dockerfile:
+
+========================================================================
+
+FROM nginx:latest
+
+LABEL version="0.0.1"
+LABEL maitainer="recorichardretardo"
+
+WORKDIR /usr/share/nginx/html
+
+# Replace Index.html with Custom file
+COPY index.html index.html
+====================================================================================
+
+$ docker image build -t nginx-custom:0.0.1 /home/osboxes/Dockerfiles/
+
+$ docker images
+
+$ docker container run -d -p 8080:80  nginx-custom:0.0.1
+
+Ex:
+
+Dockerfile:
+======================================================================================
+FROM python:latest
+
+LABEL version="0.0.1"
+LABEL maitainer="recorichardretardo"
+
+ADD py_script.py /home/osboxes/Dockerfiles/
+
+# Execute python script
+CMD [ "python", "/home/osboxes/Dockerfiles/py_script.py" ]
+=============================================================================================
+
+py_script.py:
+===================================================================
+n=15
+for i in range(0,n):
+	print (((n-(i+1))*' ')+(((2*i)+1)*'*'))
+for i in range(1,n):
+	print (((i)*' ')+(((((n-i)*2)-1)*'*')))
+
+======================================================================
+
+$ docker image build -t python_prog:0.0.1 /home/osboxes/Dockerfiles/
+$ docker container run python_prog:0.0.1
+$  docker container run  recorichardretardo/python_prog:0.0.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
