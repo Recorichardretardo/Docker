@@ -36,7 +36,8 @@ or
 $ docker run hello-world (old)
 
 
-* when we start any container first docker will search for that container image in our local machine. if it will not that image in our local will get the message like this:
+* when we start any container first docker will search for that container image in our local machine.
+ if it will not that image in our local will get the message like this:
 
 > Unable to find image 'hello-world:latest' (image name) locally
 
@@ -103,7 +104,8 @@ $ docker container ls -a
 
  run: start a new container always
  start: start a existing containers
-    eg: docker start nginx-server or docker container start nginx-server ( name) or docker container start 88392af5d828 (CONTAINER ID)
+    eg: docker start nginx-server or docker container start nginx-server ( name) or 
+    docker container start 88392af5d828 (CONTAINER ID)
 
 * See logs of a specific container
 
@@ -211,7 +213,8 @@ $ curl https://www.facebook.com
 * Docker Network is easy to Plugged-in in Containers.
 * User is allow to Create Multiple VPN.
 * Create Multiple Rules for Single Network.
-* Attach Multiple Containers to One Network, and Attach single container to more than One Network or no need to attach any network to container.
+* Attach Multiple Containers to One Network, 
+and Attach single container to more than One Network or no need to attach any network to container.
 
 
 * Start Container to allow traffic from Port on Host Machine
@@ -316,7 +319,8 @@ $ docker network rm mynetwork
 * Docker Images:
 =================
 
-* In Docker, everything is based on Images. An image is a combination of a file system and parameters. Images contains the binaries and dependencies.
+* In Docker, everything is based on Images. An image is a combination of a file system and parameters.
+ Images contains the binaries and dependencies.
 * Images Contains the data require to run the Image. 
 
 * List Docker Images:
@@ -331,7 +335,8 @@ $ docker images
 
 * Docker Images can be Downloaded from Docker Hub. 
 
-* Images can be committed with changes and have multiple versions. If you don't provide a specific version number, the client defaults to latest.
+* Images can be committed with changes and have multiple versions. 
+If you don't provide a specific version number, the client defaults to latest.
 
 Docker Images Différenciation:
 ==============================
@@ -340,9 +345,11 @@ Docker Images Différenciation:
 
 * Child Images : Images that build on base images and add additional functionality.
 
-* Official images : Images that are officially maintained and supported by the folks at Docker. These are typically one word long.
+* Official images : Images that are officially maintained and supported by the folks at Docker.
+ These are typically one word long.
 
-* User images : Images created and shared by users like you and me. They build on base images and add additional functionality. Typically, these are formatted as user/image-name.
+* User images : Images created and shared by users like you and me.
+ They build on base images and add additional functionality. Typically, these are formatted as user/image-name.
 
 * Download Docker Image.
 
@@ -360,7 +367,8 @@ $ docker pull mysql:5.7
 Docker Images & Layers:
 ========================
 
-* Each image consists of a series of layers. Docker makes use of union file systems to combine these layers into a single image.
+* Each image consists of a series of layers. 
+Docker makes use of union file systems to combine these layers into a single image.
 
 * Union file systems allow files and directories of separate file systems, known as branches. 
 
@@ -402,7 +410,8 @@ $ docker images
 
 * User must have the Account on hub.docker.com
 
-* Docker Cloud uses Docker Hub as its native registry for storing both public and private repositories. Once you push your images to Docker Hub, they are available in Docker Cloud. 
+* Docker Cloud uses Docker Hub as its native registry for storing both public and private repositories.
+ Once you push your images to Docker Hub, they are available in Docker Cloud. 
 
 * Command to login:
 
@@ -431,8 +440,12 @@ $ docker pull recorichardretardo/ubuntu_demo
 =============
 
  > Docker can build images automatically by reading the instructions from a Dockerfile.
- > A Dockerfile is a text file that defines a Docker image. we’ll use a Dockerfile to create our own custom Docker image, in other words to define our custom environment to be used in a Docker container.
- > A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image.
+ > A Dockerfile is a text file that defines a Docker image.
+  we’ll use a Dockerfile to create our own custom Docker image,
+ in other words to define our custom environment to be used in a Docker container.
+
+ > A Dockerfile is a text document that contains all the commands a user could call on the command
+  line to assemble an image.
  > A Docker image consists of read-only layers each of which represents a Dockerfile instruction.
  > Command to build image from Dockerfile:
     > docker build -f <path_of_docker_file>
@@ -451,7 +464,8 @@ $ docker pull recorichardretardo/ubuntu_demo
     LABEL com.example.version="0.0.1-beta"
     LABEL vendor1="ACME Incorporated"
 
-    > RUN : RUN instruction will execute any commands in a new layer on top of the current image and commit the results.
+    > RUN : RUN instruction will execute any commands in a new layer on top of the current image and 
+    commit the results.
     * The resulting committed imae will be used for the next step in the Dockerfile.
 
     Ex:
@@ -464,7 +478,8 @@ $ docker pull recorichardretardo/ubuntu_demo
 
     * Format:
       CMD ["executable","param1","param2"]
-    * There can only be one CMD instruction in a Dockerfile. If we list more than one CMD then only the last CMD will take effect.
+    * There can only be one CMD instruction in a Dockerfile.
+     If we list more than one CMD then only the last CMD will take effect.
     * The main purpose of a CMD is to provide defaults for an executing container.
 
     > EXPOSE: EXPOSE instruction indicates the ports on which a container listens for connections.
@@ -474,16 +489,20 @@ $ docker pull recorichardretardo/ubuntu_demo
 
     > ENV: ENV instruction  sets the environment variable <key> to the value <value>.
 
-    * To make new software easier to run, we can use ENV to update the PATH environment variable for the software our container installs.
+    * To make new software easier to run, we can use ENV to update the PATH environment 
+    variable for the software our container installs.
 
-    > ADD: ADD instruction copies new files, directories or remote file URLs from <src> and adds them to file system of the image at the path <dest>.
+    > ADD: ADD instruction copies new files, directories or remote file URLs from <src>
+     and adds them to file system of the image at the path <dest>.
 
     * Format:
         ADD hom*/mydir/  # adds all files starting with "hom"
 
-    > VOLUME: VOLUME instruction should be used to expose any database storage area, configuration storage, or files/folders created by our docker container.
+    > VOLUME: VOLUME instruction should be used to expose any database storage area,
+     configuration storage, or files/folders created by our docker container.
 
-    > WORKDIR: WORKDIR instruction sets the working directory for any RUN, CMD, ADD instructions that follow it in the Dockerfile.
+    > WORKDIR: WORKDIR instruction sets the working directory for any RUN, CMD, ADD instructions 
+    that follow it in the Dockerfile.
 
 * Build Docker Image:
 =====================
@@ -602,9 +621,244 @@ for i in range(1,n):
 
 $ docker image build -t python_prog:0.0.1 /home/osboxes/Dockerfiles/
 $ docker container run python_prog:0.0.1
-$  docker container run  recorichardretardo/python_prog:0.0.1
+$ docker container run  recorichardretardo/python_prog:0.0.1
+
+* Docker Container : Data Management:
+======================================
+
+* Containers are immutable : Once deploy never change, only
+re-deploy.
+
+* Config Change or version Upgrade need re-deploy. 
+
+* By default all files created inside a container are stored on a
+writable container layer.
+
+* The data doesn’t persist when that container no longer exists,
+and it can be difficult to get the data out of the container if
+another process needs it.
+
+* This is called Container Persistent Data Problem.
+
+* Docker has two options for containers to store files in the
+host machine, so that the files are persisted even after the
+container stops- 
+
+    1 * Volumes 
+    2 * Bind Mounts
+
+* Persistant Data : Volumes:
+=============================
+
+* Volumes : Volumes are stored in a part of the host filesystem
+which is managed by Docker.
+
+* Volumes are created and Managed by Containers. 
+
+* Volumes can be create by Volume Command in Docker File. 
+
+* When you create a volume, it is stored within a directory on
+the Docker host machine. 
+
+* Volumes can not be removed when user destroy the
+containers.
+
+Ex:
+
+* Pull mySQL image 
+$ docker pull mysql
+
+* Run MySQL
+$ docker container run -d --name mysqldb -e MYSQL_ALLOW_EMPTY_PASSWORD=True mysql
+
+* List volumes 
+$ docker volume ls
+
+* Inspect Volumes
+$ docker volume inspect d6804e49b9d5a787a01874de429732170e8f64b502e18239089548b982d4b017
+
+* Named volumes:
+================
+
+* Run MySQL with named Volume
+
+$ docker container run -d --name mysqldb1 -e MYSQL_ALLOW_EMPTY_PASSWORD=True 
+--mount source=mysql-db1,destination=/var/lib/mysql mysql
+
+or 
+
+$ docker container run -d --name mysql-db2 -e MYSQL_ALLOW_EMPTY_PASSWORD=True 
+-v mysql-db2:/var/lib/mysql mysql
+
+$ docker volume ls
+
+* we can start a new container with existing data volumes.
+
+$ docker container run -d --name mysqldb3 -e MYSQL_ALLOW_EMPTY_PASSWORD=True 
+--mount source=mysql-db1,destination=/var/lib/mysql mysql
+
+$ docker container inspect mysqldb3 ( see mounts ) 
+
+* Create Volumes
+
+$ docker volume create <name> 
+$ docker volume create mysqldb4
+$ docker volume ls
+
+* Remove Volume
+
+$ docker volume rm <name>
+$ docker volume rm mysqldb4
+
+* Persistent Data : Bind Mounts:
+=================================
+
+* Bind Mounts : Bind mount means a file or directory on
+the host machine is mounted into a container.. 
+
+* Mapping of Host Files into a Container Files.
+
+* Bind mounts may be stored anywhere on the host system.
+
+* Non-Docker processes on the Docker host or a Docker
+container can modify them at any time. 
+
+* Bind Mount can’t be use in DockerFile.
+
+* Use Case of Bind Mounts:
+===========================
+
+* Sharing configuration files from the host machine to
+containers.
+
+* Sharing source code or build artifacts between a development
+environment on the Docker host and a container.
+
+Ex:
+
+* Start nginx with Bind Mount
+
+$ docker container run -d --name nginxbind --mount type=bind,source=$(pwd),target=/app nginx
+
+$ docker inspect nginxbind ( see "Mounts" )
+
+$ docker container exec -it nginxbind bash
 
 
+* Go to MySQL DataBase and Create Data:
+========================================
+
+* Inspect container to find the IP 
+$ docker container inspect mysqldb1
+* Get the Running Port 
+* Install MySQL client package.
+$ apt-get install mysql-client
+* Execute Command to login MySQL DB 
+$ mysql -u root -p <password> -h <hostIP> -P <port>
+$ mysql -u root -h 172.17.0.3 -P 3306
+* Create DataBase
+$ CREATE DATABASE <databasename>;
+$ CREATE DATABASE testdb;
+$ show databases;
+$ use testdb;
+
+* Create Table in DataBase
+$ CREATE TABLE Persons ( PersonID int, LastName varchar(255),
+FirstName varchar(255), Address varchar(255), City varchar(255) );
+
+$ show tables;
+
+* Insert Some Data into the Table
+
+$  INSERT INTO Persons (PersonID, LastName, FirstName, Address,City) 
+VALUES (14, 'B. Erichsen', 'Tom', 'Skagen 216', 'Norway');
+
+$ SELECT * From Persons;
+
+$ quit
+
+* Docker Compose:
+==================
+
+* Docker Compose : Docker Compose is used to run multiple
+containers as a single service. Compose provide relationship between
+multiple Containers. 
+
+* Example : User can Start MySQL and Tomcat Container with one
+YML file without starting each separately. 
+
+* Docker Compose an Three Step Process: :
+===========================================
+
+1 * Define your app’s environment with a dockerfile so it can be reproduced anywhere. 
+
+2 * Define the services that make up your app in docker-compose.yml so
+they can be run together in an isolated environment.
+
+3 * Run docker-compose up and Compose starts and runs your entire app.
+
+* Install Docker Compose :
+===========================
+
+1 * Download the necessary files from github using the following command −
+
+$ sudo curl -L "https://github.com/docker/compose/releases/
+download/1.23.2/docker-compose-$(uname -s)-$(uname -m)"
+-o /usr/local/bin/docker-compose 
+
+2 * Apply executable permissions to the binary:
+
+$ sudo chmod +x /usr/local/bin/docker-compose 
+
+3 * Verify Syntax:
+
+$ docker-compose --version
+
+
+* Docker Compose : YML is formatted file in Docker compose
+which describe the Solution for: 
+
+    > Containers
+    > Networks
+    > Volumes
+    > Container Relation 
+
+* Docker Compose yml file :
+===========================    
+
+* Yml file can be versioned. 
+* Version statement should be the FirstLine of File
+* YML can be used with docker-compose command. 
+* Docker-compose.yml if default name of YML file.
+* Custom name can be used by command docker-compose -f
+$ docker-compose -f xxx.yml
+
+* Run Containers with Docker Compose:
+======================================
+
+* Docker Compose : Starting MySQL and Wordpress containers 
+
+* We will start with Docker Compose File 
+
+* Prepare docker-compose.yml file 
+
+* Save file and Run via command
+
+$ docker-compose up -d
+
+* Verify Containers on Host Machine
+
+* Access WordPress in Browser 
+
+* Down the Docker Containers via Docker Compose
+
+$ docker-compose down
+
+$  docker-compose -f custom-application.yml up -d
+
+$ docker-compose -f custom-application.yml down
+
+$ docker container logs 3bf8eb6f3f99
 
 
 
