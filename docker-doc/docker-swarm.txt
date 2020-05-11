@@ -1,0 +1,118 @@
+Docker Swarm:
+==============
+
+* Docker Swarm is a clustering and scheduling tool for Docker containers. 
+
+* Swarm is Docker’s native support for orchestrating clusters of Docker engines.
+
+* Orchestration : Define nodes. Define services. Set how many nodes you want to run and where,
+ and you’re done.
+
+* At a high level, Swarm takes multiple Docker Engines running on different hosts 
+and lets you use them together.
+
+* Docker Swarm : Docker Swarm have Two Type of Nodes,  Master(Manager) and Worker.
+
+* Every swarm starts out with one manager node designated as the leader.
+
+* Swarm is highly available thanks to its implementation of the Raft algorithm. 
+
+* Raft Algo : The leader node is constantly checking in with its fellow manager nodes 
+and syncing their states.
+
+* A few benefits of Docker Swarm:
+
+ > Task Scheduling
+ > Load Balancing
+ > Rolling Updates
+ > Security
+
+* Docker Swarm : Terminology:
+==============================
+
+* Docker Swarm : The cluster management and orchestration features embedded in the Docker Engine are built
+using swarmkit.
+
+* A swarm consists of multiple Docker hosts which run in swarm mode and act as managers (to manage membership
+and delegation) and workers (which run swarm services). 
+
+* Host : Docker host can be a manager, a worker, or perform both roles.
+
+* Service : When you create a service, you define its optimal state (number of replicas, network
+ and storage resources available to it, ports the service exposes to the outside world, and more).
+
+* Docker Swarm : Docker Swarm maintains the Service Desired State. For instance,
+ if a worker node becomes unavailable, Docker schedules that node’s tasks on other nodes.
+
+* Task : Task is a running container which is part of a swarm service 
+and managed by a swarm manager. 
+
+* Nodes : A node is an instance of the Docker engine participating in the swarm. 
+
+* You can run one or more nodes on a single physical computer or cloud server,
+ but production swarm deployments typically include Docker nodes distributed across multiple physical
+and cloud machines. 
+
+* To deploy your application to a swarm, you submit a service definition to a manager node.
+The manager node dispatches units of work called tasks to worker nodes. 
+
+* Manager nodes also perform the orchestration and cluster management functions required 
+to maintain the desired state of the swarm. 
+Manager nodes elect a single leader to conduct orchestration tasks.
+
+* Worker nodes receive and execute tasks dispatched from manager nodes.
+
+* Service : A service is the definition of the tasks to execute on the manager or worker nodes.
+
+* When you create a service, you specify which container image to use and 
+which commands to execute inside running containers. 
+
+* Task : A task carries a Docker container and the commands to run inside the container.
+
+* Once a task is assigned to a node, it cannot move to another node.
+It can only run on the assigned node or fail.
+
+* Load Balancing : Swarm manager uses ingress load balancing to expose the services 
+you want to make available externally to the swarm.
+
+* External components, such as cloud load balancers, can access the service on the PublishedPort 
+of any node in the cluster whether or not the node is currently running the task for the
+service. All nodes in the swarm route ingress connections to a running task instance.
+
+* Create Swarm Services:
+=========================
+
+* Initialize Docker Swarm
+
+$ docker swarm init
+
+* Create Docker Service
+$ docker service create <image>
+$ docker service create alpine ping www.google.com
+
+* List all running services in Docker Host
+$ docker service ls 
+
+$  docker service inspect ing9ibrfhh92
+
+
+* Identify running Container for the Service
+
+$ docker service ps <service_name>
+$ docker service ps  goofy_shtern
+$ docker container ls
+$ docker container inspect goofy_shtern.1.ib5cdckul74m51zbmcx4t10dt
+
+* Scale Up the services:
+
+$ docker service update <service_name> --replicas <Number of Services>
+$ docker service ls
+$ docker service update goofy_shtern --replicas 4
+$ docker service ps goofy_shtern
+
+
+
+
+
+
+ 
